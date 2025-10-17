@@ -1,7 +1,44 @@
-
 const loginEmail = document.getElementById('loginEmail');
 const loginPassword = document.getElementById('loginPassword');
 const loginBtn = document.getElementById('loginBtn');
+
+// Validation functions
+function validateEmailOrPhone(input) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneDigits = input.replace(/\D/g, '');
+  
+  // Check if it's a valid email or a valid phone (15 digits)
+  return emailRegex.test(input.trim()) || phoneDigits.length === 15;
+}
+
+function validatePassword(password) {
+  return password.length >= 6;
+}
+
+// Real-time validation on input
+loginEmail.addEventListener('input', () => {
+  if (loginEmail.value.length > 0) {
+    if (validateEmailOrPhone(loginEmail.value)) {
+      loginEmail.classList.remove('error');
+    } else {
+      loginEmail.classList.add('error');
+    }
+  } else {
+    loginEmail.classList.remove('error');
+  }
+});
+
+loginPassword.addEventListener('input', () => {
+  if (loginPassword.value.length > 0) {
+    if (validatePassword(loginPassword.value)) {
+      loginPassword.classList.remove('error');
+    } else {
+      loginPassword.classList.add('error');
+    }
+  } else {
+    loginPassword.classList.remove('error');
+  }
+});
 
 loginBtn.addEventListener('click', async (e) => {
   e.preventDefault();
@@ -12,12 +49,14 @@ loginBtn.addEventListener('click', async (e) => {
   loginEmail.classList.remove('error');
   loginPassword.classList.remove('error');
 
-  if (!loginEmail.value.trim()) {
+  // Validate email or phone
+  if (!loginEmail.value.trim() || !validateEmailOrPhone(loginEmail.value)) {
     loginEmail.classList.add('error');
     hasError = true;
   }
 
-  if (!loginPassword.value.trim()) {
+  // Validate password
+  if (!loginPassword.value.trim() || !validatePassword(loginPassword.value)) {
     loginPassword.classList.add('error');
     hasError = true;
   }
@@ -49,12 +88,4 @@ loginBtn.addEventListener('click', async (e) => {
     console.error('Error:', error);
     alert('An error occurred. Please try again.');
   }
-});
-
-loginEmail.addEventListener('input', () => {
-  loginEmail.classList.remove('error');
-});
-
-loginPassword.addEventListener('input', () => {
-  loginPassword.classList.remove('error');
 });

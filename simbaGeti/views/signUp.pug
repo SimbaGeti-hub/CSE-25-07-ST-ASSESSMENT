@@ -5,12 +5,11 @@ head
   title Signup
   link(rel='stylesheet' href='/css/signUp.css')
 .container
-  .form(action="/signup" method="POST")
   .form-container
     #signupSuccess.success-message.hidden
       | Account created successfully! &ndash; 
       a(href='/login') Login
-      button#closeSuccess.close-btn X
+      button#closeSuccess.close-btn 
     h1 Signup
     .input-group
       input#fullName(type='text' placeholder='Full Name')
